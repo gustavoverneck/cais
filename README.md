@@ -1,6 +1,6 @@
 ## CAIS: C++ Artificial Intelligence Solver
 
-**CAIS** is a C++ AI solver. The idea is to build a complete AI solutions platform over time.
+**CAIS** is a (work in progress) C++ AI solver. The idea is to build a complete AI solutions platform over time.
 
 
 ## Dependencies 
