@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Include directories
 include_directories(
-    ${PROJECT_SOURCE_DIR}/include/cais
+    ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_SOURCE_DIR}/third_party/eigen-3.4.0
     ${PROJECT_SOURCE_DIR}/third_party/opencl_wrapper
     ${PROJECT_SOURCE_DIR}/third_party/opencl_wrapper/OpenCL/include

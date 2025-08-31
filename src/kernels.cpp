@@ -9,18 +9,22 @@ kernel void add_kernel(global float* A, global float* B, global float* C) { // e
 }
 
 
-kernel void matrix_multiply_kernel( global const float* A, global const float* B, global float* C, const int widthA, const int widthB
-    ) {
-        int col = get_global_id(0); // X -> Column
-        int row = get_global_id(1); // Y -> Row
+kernel void matmul(global const float* A, global const float* B, global float* C, const uint M, const uint N, const uint K) {
+    const int global_id = get_global_id(0);
 
-        float sum = 0.0f;
-        for (int k = 0; k < widthA; ++k) {
-            sum += A[row * widthA + k] * B[k * widthB + col];
-        }
+    const int i = global_id / N; // Integer division gives the row (i).
+    const int j = global_id % N; // Remainder gives the column (j).
 
-        C[row * widthB + col] = sum;
+    // Perform dot product of row 'i' of A with column 'j' of B.
+    float sum = 0.0f;
+    for (uint k = 0; k < K; ++k) {
+        // Access A[i][k] and B[k][j] in linear memory.
+        sum += A[i * K + k] * B[k * N + j];
     }
+
+    // Store the result in the correct position C[i][j] in linear memory.
+    C[i * N + j] = sum;
+}
 
 
 );} // ############################################################### end of OpenCL C code #####################################################################

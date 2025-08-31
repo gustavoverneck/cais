@@ -1,30 +1,65 @@
-#include "opencl.hpp"
+#include "cais/solver.hpp" // A API pública da sua biblioteca
+#include <iostream>
+
+// --- Funções Auxiliares para Impressão ---
+
+// Imprime uma matriz Eigen de forma clara e legível.
+void print_matrix(const std::string& title, const cais::Matrix& mat) {
+    std::cout << "--- " << title << " (" << mat.rows() << "x" << mat.cols() << ") ---\n"
+              << mat << "\n" << std::endl;
+}
+
+// Imprime um vetor Eigen.
+void print_vector(const std::string& title, const cais::Vector& vec) {
+    std::cout << "--- " << title << " (" << vec.size() << ") ---\n"
+              << vec << "\n" << std::endl;
+}
+
 
 int main() {
-	Device device(select_device_with_most_flops()); // compile OpenCL C code for the fastest available device
+    try {
+        // ====================================================================
+        // Teste 1: Multiplicação de Matrizes (matmul)
+        // ====================================================================
 
-	const uint N = 1024u; // size of vectors
-	Memory<float> A(device, N); // allocate memory on both host and device
-	Memory<float> B(device, N);
-	Memory<float> C(device, N);
+        // 1. Preparar dados de teste para matmul
+        cais::Matrix A(2, 3); // Matriz 2x3
+        A << 1.0f, 2.0f, 3.0f,
+             4.0f, 5.0f, 6.0f;
 
-	Kernel add_kernel(device, N, "add_kernel", A, B, C); // kernel that runs on the device
+        cais::Matrix B(3, 4); // Matriz 3x4
+        B << 7.0f, 8.0f, 9.0f, 10.0f,
+             11.0f, 12.0f, 13.0f, 14.0f,
+             15.0f, 16.0f, 17.0f, 18.0f;
+        
+        cais::Matrix C_cpu, C_gpu;
 
-	for(uint n=0u; n<N; n++) {
-		A[n] = 3.0f; // initialize memory
-		B[n] = 2.0f;
-		C[n] = 1.0f;
-	}
+        print_matrix("Matriz de Entrada A", A);
+        print_matrix("Matriz de Entrada B", B);
 
-	print_info("Value before kernel execution: C[0] = "+to_string(C[0]));
+        // 2. Executar na CPU
+        std::cout << "\n--- Rodando na CPU ---\n";
+        cais::Solver cpu_solver(cais::ExecutionMode::CPU);
+        cpu_solver.matmul(A, B, C_cpu);
+        print_matrix("Resultado da CPU", C_cpu);
 
-	A.write_to_device(); // copy data from host memory to device memory
-	B.write_to_device();
-	add_kernel.run(); // run add_kernel on the device
-	C.read_from_device(); // copy data from device memory to host memory
+        // 3. Executar na GPU
+        std::cout << "--- Rodando na GPU ---\n";
+        cais::Solver gpu_solver(cais::ExecutionMode::GPU);
+        gpu_solver.matmul(A, B, C_gpu);
+        print_matrix("Resultado da GPU", C_gpu);
 
-	print_info("Value after kernel execution: C[0] = "+to_string(C[0]));
+        // 4. Verificação de Matmul
+        if (C_cpu.isApprox(C_gpu)) {
+            std::cout << ">>> VERIFICACAO MATMUL: SUCESSO! Resultados sao identicos.\n\n";
+        } else {
+            std::cout << ">>> VERIFICACAO MATMUL: FALHA! Resultados sao diferentes.\n\n";
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Ocorreu um erro fatal: " << e.what() << std::endl;
+        return 1;
+    }
 
-	wait();
-	return 0;
+    return 0;
 }
+

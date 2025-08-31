@@ -1,9 +1,22 @@
 #pragma once
 
-#include "cais/engine.h"
-#include "opencl_wrapper/opencl.hpp"
+#include "cais/engine.hpp" // Inclui a interface pública
+#include "opencl.hpp"      // Inclui o seu wrapper OpenCL
 
+namespace cais {
 
-class OpenClEngineL: public Engine {
-    
-}
+std::string opencl_c_container();
+
+class OpenClEngine : public Engine {
+public:
+    OpenClEngine();
+
+    // Matrices Multiplication: C = A * B
+    void matmul(
+        const Matrix& A, const Matrix& B, Matrix& C) override;
+
+private:
+    Device m_device;
+};
+
+} // namespace cais
