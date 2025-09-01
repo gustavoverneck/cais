@@ -11,7 +11,9 @@ public:
         const Matrix& B,
         Matrix& C) override;
 
-    };
-
-
+    void add(
+        const Matrix& A,
+        const Matrix& B,
+        Matrix& C) override;
+};
 } // namespace cais

@@ -9,7 +9,7 @@ kernel void add_kernel(global float* A, global float* B, global float* C) { // e
 }
 
 
-kernel void matmul(global const float* A, global const float* B, global float* C, const uint M, const uint N, const uint K) {
+kernel void matmul_kernel(global const float* A, global const float* B, global float* C, const uint M, const uint N, const uint K) {
     const int global_id = get_global_id(0);
 
     const int i = global_id / N; // Integer division gives the row (i).

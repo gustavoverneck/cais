@@ -21,6 +21,12 @@ public:
         Matrix& C
     ) = 0;
 
+    virtual void add(
+        const Matrix& A,
+        const Matrix& B,
+        Matrix& C
+    ) = 0;
+
 };
 
 

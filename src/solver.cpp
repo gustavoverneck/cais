@@ -28,4 +28,9 @@ void Solver::matmul(const Matrix& A, const Matrix& B, Matrix& C)
     m_engine->matmul(A, B, C);
 }
 
+void Solver::add(const Matrix& A, const Matrix& B, Matrix& C)
+{
+    m_engine->add(A, B, C);
+}
+
 } // namespace cais

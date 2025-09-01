@@ -13,7 +13,16 @@ public:
 
     // Matrices Multiplication: C = A * B
     void matmul(
-        const Matrix& A, const Matrix& B, Matrix& C) override;
+        const Matrix& A, 
+        const Matrix& B, 
+        Matrix& C
+    ) override;
+
+    void add(
+        const Matrix& A, 
+        const Matrix& B, 
+        Matrix& C
+    ) override;
 
 private:
     Device m_device;
