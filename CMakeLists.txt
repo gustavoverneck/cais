@@ -22,6 +22,7 @@ set(SOURCES
 
 add_executable(cais examples/main.cpp ${SOURCES})
 
+
 # Find and link OpenCL
 find_package(OpenCL REQUIRED)
 if(OpenCL_FOUND)
@@ -30,3 +31,13 @@ if(OpenCL_FOUND)
 else()
     message(FATAL_ERROR "OpenCL not found")
 endif()
+
+# Find all example source files
+file(GLOB EXAMPLES "examples/*.cpp")
+
+foreach(example_file ${EXAMPLES})
+    get_filename_component(example_name ${example_file} NAME_WE)
+    add_executable(${example_name} ${example_file} ${SOURCES})
+    target_include_directories(${example_name} PRIVATE ${OpenCL_INCLUDE_DIRS})
+    target_link_libraries(${example_name} PRIVATE ${OpenCL_LIBRARIES})
+endforeach()
