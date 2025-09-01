@@ -15,5 +15,10 @@ public:
         const Matrix& A,
         const Matrix& B,
         Matrix& C) override;
+
+    void scale(
+        Matrix& A,
+        const float scalar_value
+    ) override;
 };
 } // namespace cais

@@ -24,6 +24,11 @@ public:
         Matrix& C
     ) override;
 
+    void scale(
+        Matrix& A,
+        const float scalar_value
+    ) override;
+
 private:
     Device m_device;
 };

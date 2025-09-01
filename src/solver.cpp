@@ -33,4 +33,9 @@ void Solver::add(const Matrix& A, const Matrix& B, Matrix& C)
     m_engine->add(A, B, C);
 }
 
+void Solver::scale(Matrix& A, const float scalar_value)
+{
+    m_engine->scale(A, scalar_value);
+}
+
 } // namespace cais

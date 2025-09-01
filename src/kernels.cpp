@@ -26,5 +26,11 @@ kernel void matmul_kernel(global const float* A, global const float* B, global f
     C[i * N + j] = sum;
 }
 
+kernel void scale_kernel(global float* A, const float scalar_value) {
+    const uint  n = get_global_id(0);
+
+    A[n] = A[n] * scalar_value;
+}
+
 
 );} // ############################################################### end of OpenCL C code #####################################################################

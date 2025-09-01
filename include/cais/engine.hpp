@@ -27,6 +27,11 @@ public:
         Matrix& C
     ) = 0;
 
+    virtual void scale(
+        Matrix& A,
+        const float scalar_value
+    ) = 0;
+
 };
 
 

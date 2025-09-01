@@ -21,6 +21,10 @@ public:
         Matrix& C
     );
     
+    void scale(
+        Matrix& A,
+        const float scalar_value
+    );
 
 private:
     std::unique_ptr<Engine> m_engine;

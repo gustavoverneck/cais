@@ -31,4 +31,9 @@ void CpuEngine::add(const Matrix& A, const Matrix& B, Matrix& C)
     C = A + B;
 }
 
+void CpuEngine::scale(Matrix& A, const float scalar_value)
+{
+    A = A * scalar_value;
+}
+
 } // namespace cais
